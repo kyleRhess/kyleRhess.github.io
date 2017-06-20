@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Kyle Hess | Electrical Engineer</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+	</head>
+	<body>
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="index.html">Kyle Hess - Seattle, WA</a></h1>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<div class="inner">
+							<h2>Menu</h2>
+							<ul class="links">
+								<li><a href="index.html">Home</a></li>
+								<li><a href="resume.html">Resume</a></li>
+								<li><a href="projects.html">Projects</a></li>
+							</ul>
+							<a href="#" class="close">Close</a>
+						</div>
+					</nav>
+
+				<!-- Wrapper -->
+					<section id="wrapper">
+						<header>
+							<div class="inner">
+								<h2>LED Matrix Display</h2>
+								<p>For displaying basic dot-matrix style graphics, numbers, and words. Current version must be interfaced with an Arduino Uno.</p>
+							</div>
+						</header>
+
+						<!-- Content -->
+							<div class="wrapper">
+								<div class="inner">
+
+									<section>
+									<h1 class="major">Overall Design</h1>
+										<p><span class="image left"><img src="images/display/design.jpg" alt="" /></span>This display was built around the 74HC595 8-bit shift register. The board utilizes three of these devices, daisy chained together, to shift 24 bits of data per cycle. A single shift register controls each of the eight rows via eight N-channel MOSFETs. The other two shift registers sink current from each of the 16 columns. This is viable because at any time, only one row will be turned on, thus only one LED per column will be on. This does not exceed the current limits of the column shift registers. However, MOSFETs must be used for each of the rows since up to 16 LEDs may be turned on (16 * ~20mA = 320mA!).<br />
+										</p>
+										<section><p>
+										<b>Parts: <br /></b><i>
+										-74HC595 Shift Register x3<br />
+										-SSM3K339R MOSFET x6<br />
+										-180Ohm Resistor Array x 2<br />
+										-0805 SMD LED x128<br />
+										</i>
+										<h2><a href="#" download>Schematic PDF</h2></a>
+										<h2><a href="#" download>Arduino Code</h2></a>
+									</p>
+										</section>
+									</section>
+
+									<section>
+									<h1 class="major">Final Revision</h1>
+										<div class="box alt">
+											<div class="row uniform">
+												<div class="12u"><span class="image fit"><img src="images/display/vid.gif" alt="" /><figcaption>Running Conway's Game of Life on the display.</figcaption></span></div>
+												<div class="6u"><span class="image fit"><img src="images/display/square.jpg" alt="" /></span></div>
+												<div class="6u"><span class="image fit"><img src="images/display/macro.jpg" alt="" /></span></div>
+											</div>
+										</div>
+									</section>
+
+									<section>
+									<h1 class="major">Specifications</h1>
+										<p><span class="image left"><img src="images/display/macro2.jpg" alt="" /></span>
+										-Runs on 3.3V or 5V logic<br />
+										-Estimated 200mA max continous current<br />
+										-Dimmable via PWM input<br />
+										-Requires up to 5 Arduino GPIO pins
+										-200Hz max refresh rate<br /><br /><br /><br /><br /><br /><br />
+										</p>
+									</section>
+
+									<section>
+									<h1 class="major">Future Improvements</h1>
+										<p>My plans for future improvements include incorporating a microcontroller on the display board itself as well as some method of user input. I would also like to change the board from a two-layer PCB to a four-layer. This would allow most, if not all, of the non-LED components to be placed on the bottom side of the board and shrink the overall size.
+										</p>
+									</section>
+								</div>
+							</div>
+
+					</section>
+
+				<!-- Footer -->
+					<section id="footer">
+						<div class="inner">
+							<ul class="copyright">
+								<li>Kyle Hess</li><li>Seattle, Washington</li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

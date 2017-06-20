@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Kyle Hess | Electrical Engineer</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+	</head>
+	<body>
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="index.html">Kyle Hess - Seattle, WA</a></h1>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<div class="inner">
+							<h2>Menu</h2>
+							<ul class="links">
+								<li><a href="index.html">Home</a></li>
+								<li><a href="resume.html">Resume</a></li>
+								<li><a href="projects.html">Projects</a></li>
+							</ul>
+							<a href="#" class="close">Close</a>
+						</div>
+					</nav>
+
+				<!-- Wrapper -->
+					<section id="wrapper">
+						<header>
+							<div class="inner">
+								<h2>Brushless DC Motor Controller</h2>
+								<p>Designed to operate a 48V BLDC motor with closed-loop speed control, position control, and direction and braking control.</p>
+							</div>
+						</header>
+
+						<!-- Content -->
+							<div class="wrapper">
+								<div class="inner">
+
+									<section>
+									<h1 class="major">Design</h1>
+										<div class="12u$"><span class="image fit"><img src="images/controller/poster.png" alt="" /></span>
+										</div>
+									</section>
+									<section>
+									<h1 class="major">Specifications</h1>
+										<p><span class="image left"><img src="images/loomis.jpg" alt="" /></span>This driver was designed to meet the specifications of the DF45:<br />
+										-24V maximum<br />
+										-3.5A Continous, 9A Peak currents<br />
+										-0RPM to 4480RPM<br />
+										-Fast speed and direction changes<br />
+										-Complementary switching<br />
+										-Controllable via PWM input<br />
+										<br />
+										The driver meets all of these specs, but unfortunately it is unable to brake/change direction under full power. This is due to the large voltage rise that occurs during it's regenerative braking stage. There are a few possible solutions to this for future iterations.
+										</p>
+									</section>
+									<section>
+									<h1 class="major">Future Improvements</h1>
+										<p>Future iterations of this design will hopefully incorporate on-board voltage conversion for the various ICs to address the problems remote sourcing introduces. I would also like to replace the Hall-effect based current sensor with a more precise, and simpler, resistor-based design. The 'enable' pin of the MOSFET driver should be controllable via software instead of external jumper pins. Finally, an I<sup>2</sup>C interface could be developed to allow two-way communication with the driver via only two wires. 
+										</p>
+									</section>
+								</div>
+							</div>
+
+					</section>
+
+				<!-- Footer -->
+					<section id="footer">
+						<div class="inner">
+							<ul class="copyright">
+								<li>Kyle Hess</li><li>Seattle, Washington</li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

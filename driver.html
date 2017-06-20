@@ -40,7 +40,7 @@
 						<header>
 							<div class="inner">
 								<h2>Brushless DC Motor Driver PCB</h2>
-								<p>Designed specifically for the Nanotec DF45 16 pole, three phase brushless DC motor with hall sensor feedback.</p>
+								<p>Designed specifically for the Nanotec DF45 16 pole, three phase brushless DC motor with hall sensor feedback. This driver was a crucial component of a larger, <a href="cube.html">controls capstone project</a>. The capstone was a group project, but this module was delegated to me.</p>
 							</div>
 						</header>
 
@@ -61,7 +61,8 @@
 											-ATMEGA328P uController x1<br />
 											-ACS712 Current Sensor x1<br />
 											-Various resistors and capacitors</i><br />
-										<h2><a href="driverSch.pdf" download>Schematic PDF</h2></a>
+										<h3><a href="driverSch.pdf" download>Schematic PDF Download</h3></a>
+										<h3><a href="https://github.com/kyleRhess/DF45Driver">Atmega Code</h3></a>
 										</section>
 									</section>
 									<section>
@@ -92,12 +93,12 @@
 										-Complementary switching<br />
 										-Controllable via PWM input<br />
 										<br />
-										The driver meets all of these specs, but unfortunately it is unable to brake/change direction under full power. This is due to the large voltage rise that occurs during it's regenerative braking stage. There are a few possible solutions to this for future iterations.
+										The driver meets all of these specs, but unfortunately it is unable to brake/change direction under full power. This is due to the large voltage rise that occurs during it's regenerative braking stage. There are several possible solutions to this.
 										</p>
 									</section>
 									<section>
 									<h1 class="major">Future Improvements</h1>
-										<p>Future iterations of this design will hopefully incorporate on-board voltage conversion for the various ICs to address the problems remote sourcing introduces. I would also like to replace the Hall-effect based current sensor with a more precise, and simpler, resistor-based design. The 'enable' pin of the MOSFET driver should be controllable via software instead of external jumper pins. Finally, an I<sup>2</sup>C interface could be developed to allow two-way communication with the driver via only two wires. 
+										<p>Future iterations of this design will hopefully incorporate on-board voltage conversion for the various ICs to address the problems that remote voltage conversion introduces. I want to add a Schmitt-trigger-activated braking resistor to reduce the voltage rise during braking. I would also like to replace the Hall-effect based current sensor with a more precise, and simpler, resistor-based design. The 'enable' pin of the MOSFET driver should be controllable via software instead of external jumper pins. Finally, an I<sup>2</sup>C interface could be developed to allow two-way communication with the driver via only two wires. 
 										</p>
 									</section>
 								</div>

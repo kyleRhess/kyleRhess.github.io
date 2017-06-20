@@ -56,24 +56,20 @@
 									</section>
 									<section>
 										<h1 class="major">Video</h1>
-										<iframe width="640" height="360" src="https://www.youtube.com/embed/Al67AnTL8aM" frameborder="0" allowfullscreen></iframe>
+										<iframe width="640" height="360" src="https://www.youtube.com/embed/hpHweDRQkMQ" frameborder="0" allowfullscreen></iframe>
+
 									</section>
 									<section>
 									<h1 class="major">Specifications</h1>
-										<p><span class="image left"><img src="images/loomis.jpg" alt="" /></span>This driver was designed to meet the specifications of the DF45:<br />
-										-24V maximum<br />
-										-3.5A Continuous, 9A Peak currents<br />
-										-0RPM to 4480RPM<br />
-										-Fast speed and direction changes<br />
-										-Complementary switching<br />
-										-Controllable via PWM input<br />
+										<p><span class="image left"><img src="images/loomis.jpg" alt="" /></span>This controller was designed to drive the Anaheim Automation BLY 342S-48V-3200. A 48V, 8-pole, 3-phase BLDC motor with Hall sensor feedback:<br />
+										-48V maximum<br />
+										-4.5A Continuous, 9A Peak currents<br />
+										-0RPM to 3200RPM<br />
+										-Closed loop PI motor speed control<br />
+										-Motor direction selection<br />
+										-Real-time rotor position control<br />
 										<br />
-										The driver meets all of these specs, but unfortunately it is unable to brake/change direction under full power. This is due to the large voltage rise that occurs during it's regenerative braking stage. There are a few possible solutions to this for future iterations.
-										</p>
-									</section>
-									<section>
-									<h1 class="major">Future Improvements</h1>
-										<p>Future iterations of this design will hopefully incorporate on-board voltage conversion for the various ICs to address the problems remote sourcing introduces. I would also like to replace the Hall-effect based current sensor with a more precise, and simpler, resistor-based design. The 'enable' pin of the MOSFET driver should be controllable via software instead of external jumper pins. Finally, an I<sup>2</sup>C interface could be developed to allow two-way communication with the driver via only two wires. 
+										The driver meets all of these specs, although the rotor position control is not ideal, it still proves the concept.
 										</p>
 									</section>
 								</div>

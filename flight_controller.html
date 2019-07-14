@@ -1,0 +1,155 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Kyle Hess | Electrical Engineer</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+	</head>
+	<body>
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="index.html">Kyle Hess - Bellevue, WA</a></h1>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<div class="inner">
+							<h2>Menu</h2>
+							<ul class="links">
+								<li><a href="index.html">Home</a></li>
+								<li><a href="resume.html">Resume</a></li>
+								<li><a href="projects.html">Projects</a></li>
+							</ul>
+							<a href="#" class="close">Close</a>
+						</div>
+					</nav>
+
+				<!-- Wrapper -->
+					<section id="wrapper">
+						<header>
+							<div class="inner">
+								<h2>Quadcopter Flight Controller</h2>
+
+								<p>This project was intended as a challenge to build a custom flight controller for a racing-style quadcopter. The controller was designed with the form factor of the <a href="https://www.getfpv.com/holybro-kopis-2-fpv-racing-drone-bnf.html">Holybro Kopis 2</a> quadcopter in mind.
+							</div>
+						</header>
+
+						<!-- Content -->
+							<div class="wrapper">
+								<div class="inner">
+
+									<section>
+									<h1 class="major">Design</h1>
+										<p><span class="image left"><a href="images/flight_kicad.JPG"><img src="images/flight_kicad.JPG" alt="" /></a></span>This flight controller has been designed as a sensor suite for various sensor-fusion possibilities to achieve various control solutions for the aircraft. The high-level design goals included: stable rate-control of all three axes, <a href="https://oscarliang.com/oneshot125-esc-quadcopter-fpv/">Oneshot125 ESC protocol</a>, 4-Channel RC receiver input, and easily tunable control parameters.<br /></p>
+											<section>
+											<b>Components: <br /></b><i>
+											-STM32F410  32-bit ARM Microcontroller<br />
+											-LSM6DSM 6DOF Gyro/Accel<br />
+											-CAM-M8C GNSS Receiver<br />
+											-Bosch Barometer<br />
+											-LIS3MDL Magnetometer<br />
+											-LP2985 3.3V Linear Regulator<br />
+											-Various resistors and capacitors</i><br />
+										<h3><a href="controllerSch.pdf" target="_blank">Schematic PDF</h3></a>
+										<h3><a href="">STM32 Code</h3></a>
+										</section>
+									</section>
+									<section>
+									<h1 class="major">Rev 1.0</h1>
+										<p><span class="image left"><a href="images/flight_contoller/render2.png"><img src="images/flight_contoller/render2.png" alt="" /></a></span>The first revision of this controller was basically just a breakout/development board for the STM32F4 microcontroller. This was just used to get some experience programming and debugging the new processor, and familiarizing myself with the all of the peripherals and features.
+										<p style="page-break-after: always;">&nbsp;</p>
+										<iframe class="instagram-media instagram-media-rendered" id="instagram-embed-0" src="https://www.instagram.com/p/BplB5LjnIW2/embed/?cr=1&amp;v=12&amp;wp=540&amp;rd=https%3A%2F%2Fautolikes.com&amp;rp=%2Fblog%2F2019%2F02%2Fembed-instagram-posts-website#%7B%22ci%22%3A0%2C%22os%22%3A1658.015000000887%7D" allowtransparency="true" allowfullscreen="true" frameborder="0" height="744" data-instgrm-payload-id="instagram-media-payload-0" scrolling="no" style="background: white; max-width: 540px; width: calc(100% - 2px); border-radius: 3px; border: 1px solid rgb(219, 219, 219); box-shadow: none; display: block; margin: 0px 0px 12px; min-width: 326px; padding: 0px;"></iframe>
+										</p>
+									</section>
+									<section>
+									<h1 class="major">Rev 2.0</h1>
+										<p><span class="image left"><a href="images/flight_contoller/renderController.jpg"><img src="images/flight_contoller/renderController.jpg" alt="" /></a></span>
+
+										The second revision of the controller incorporated all of the components I had hoped to utilize in the final design. All sensors were included as well as all the necessary IO. Additional IO was added in the form of direct UART port access. The hope here was that eventually a wireless receiver could be installed and communicate with the aircraft while in flight.<p style="page-break-after: always;">&nbsp;</p>
+										<p><span class="image left"><a href="images/flight_contoller/contoller_on_drone.jpg"><img src="images/flight_contoller/contoller_on_drone.jpg" alt="" /></a></span>
+										Once completed, this board was mounted on the quadcopter frame along with the pre-purchased motor ESCs, power delivery board, motors, RC receiver, and a voltage measurement device.<br /><br />
+										After significant debugging of the ECS protocol (which is essentially just a PWM signal) tuning of the controller PID gains could begin. At this point the magnetometer was ignored as it is far to sensitive to provide reliable data in differing environments.<br /><br />
+										The existing control algorithm is only focused on rate control. The contoller reads the three rate gyros and filters the signal via oversampling and an IIR filter. The motor control signals are then modulated to keep the gyro rate readings at a setpoint given by the RC receiver (ideally). This is a very raw control scheme but allows for very direct control of the quadcopter without relying on the algorithm too much.
+										</p>
+									</section>
+									<section>
+									<h1 class="major">Specifications</h1>
+										<p>
+											-IMU sample rate: 	5 kHz<br />
+											-Control loop rate: 1 kHz<br />
+											-Baro sample rate: 	50 Hz<br />
+											-GNSS update rate: 	1 Hz<br />
+											-Battery: 			4s LiPo, 1.5 Ah<br />
+											-Motors: 			2400 KV<br />
+										</p>
+									</section>
+									<section>
+									<h1 class="major">Final Revision</h1>
+										<p>
+											<i>
+												The final revision is still a work-in-progress. The PCB layout can still be optimized and made slightly more modular as well as incorporating a wireless UART interface instead of the existing wired port.
+											</i>
+										</p>
+										<!--
+										<div class="box alt">
+											<div class="row uniform">
+												<div class="4u"><span class="image fit"><a href="images/driver/nnn.JPG"><img src="images/driver/nnn.JPG" alt="" /></a></span></div>
+												<div class="4u"><span class="image fit"><a href="images/driver/nnn.JPG"><img src="images/driver/nnn.JPG" alt="" /></a></span></div>
+												<div class="4u"><span class="image fit"><a href="images/driver/nnn.JPG"><img src="images/driver/nnn.JPG" alt="" /></a></span></div>
+											</div>
+										</div>
+										-->
+									</section>
+									<section>
+									<h1 class="major">Command Interface And UI</h1>
+										<span class="image left"><a href="images/flight_contoller/ui.jpg"><img src="images/flight_contoller/ui.jpg" alt="" /></a></span>
+										<p>
+											In order to change parameters within the flight controller, a Windows-based UI was developed with C# to send/receive messages from the quadcopter. The controller's UART port is converted to a USB interface and connected to the PC. Then the UI can conncet to the COM port to communicate with the device.<br /><br />
+											
+											Each message sent to the connected PC has the following structure:<br />
+											<i>[Start (1 byte), message counter (1 byte), 7 floating point values (28 bytes), status byte A (1 byte), status byte B (1 byte), checksum (1 byte)]</i><br /><br />
+											
+											Each message sent to the flight controller from the PC must have the following structure:<br />
+											<i>[0x7F, command byte, number of data bytes (0 - 250), data bytes, checksum, 0xF7]</i><br /><br />
+
+											Message formats are still in development and are added as they are needed.
+
+										</p>
+									</section>
+								</div>
+							</div>
+
+					</section>
+
+				<!-- Footer -->
+					<section id="footer">
+						<div class="inner">
+							<ul class="copyright">
+								<li>Kyle Hess</li><li>Bellevue, Washington</li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

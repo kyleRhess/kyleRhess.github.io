@@ -62,7 +62,7 @@
 											-LP2985 3.3V Linear Regulator<br />
 											-Various resistors and capacitors</i><br />
 										<h3><a href="controllerSch.pdf" target="_blank">Schematic PDF</h3></a>
-										<h3><a href="">STM32 Code</h3></a>
+										<h3><a href="https://github.com/kyleRhess/DroneFluxx">STM32 Code</h3></a>
 										</section>
 									</section>
 									<section>
@@ -116,16 +116,23 @@
 										<span class="image left"><a href="images/flight_contoller/ui.JPG"><img src="images/flight_contoller/ui.JPG" alt="" /></a></span>
 										<p>
 											In order to change parameters within the flight controller, a Windows-based UI was developed with C# to send/receive messages from the quadcopter. The controller's UART port is converted to a USB interface and connected to the PC. Then the UI can conncet to the COM port to communicate with the device.<br /><br />
-											
+
 											Each message sent to the connected PC has the following structure:<br />
 											<i>[Start (1 byte), message counter (1 byte), 7 floating point values (28 bytes), status byte A (1 byte), status byte B (1 byte), checksum (1 byte)]</i><br /><br />
-											
+
 											Each message sent to the flight controller from the PC must have the following structure:<br />
 											<i>[0x7F, command byte, number of data bytes (0 - 250), data bytes, checksum, 0xF7]</i><br /><br />
 
 											Message formats are still in development and are added as they are needed.
 
 										</p>
+									</section>
+									<section>
+									<h1 class="major">Integrating Drone Messages Into Webapp</h1>
+											<video width="1280" height="720" controls>
+											  <source src="images/plane.mp4" type="video/mp4">
+											Your browser does not support the video tag.
+											</video>
 									</section>
 								</div>
 							</div>

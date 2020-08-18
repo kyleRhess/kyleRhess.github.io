@@ -1,0 +1,118 @@
+\documentclass[]{article} 
+\usepackage{helvetica} % uses helvetica postscript font (download helvetica.sty)
+% \usepackage{newcent}   % uses new century schoolbook postscript font
+\usepackage[T1]{fontenc}
+\usepackage{setspace}
+\usepackage{lingmacros}
+\usepackage{titlesec}
+\usepackage{hyperref}
+
+
+\thispagestyle{empty}
+
+\usepackage[a4paper,bindingoffset=0.0in,%
+            left=0.5in,right=0.5in,top=0.5in,bottom=0.5in,%
+            footskip=.25in]{geometry}
+
+\titleformat{\section}
+{\normalfont\fontsize{11}{13}\bfseries}{\thesection}{1em}{}[{\titlerule[0.5pt]}]
+
+\titlespacing*{\section}{0pt}{2ex plus 2ex}{1ex}
+
+\begin{document}
+
+
+
+\noindent\textbf{\huge{Kyle R. Hess}}
+\hfill \break
+\noindent\makebox[\linewidth]{\rule{\textwidth}{1pt}}
+    \rightline{Bellevue, WA 98004\hspace{3 mm}|\hspace{3 mm}\href{kyleRhess.github.io}{kyleRhess.github.io}\hspace{3 mm}|\hspace{3 mm}hessk2@uw.edu}
+
+
+
+\section*{Professional Experience}
+
+\subsubsection*{09/17-Present\hspace{3 mm}|\hspace{3 mm}Sr. Electrical Engineer\hspace{3 mm}|\hspace{3 mm}Gladiator Technologies \& LKD Aerospace}
+\textbf{\emph{Hardware, Firmware \& Software}}
+\begin{itemize}
+    \setlength\itemsep{0.05em}
+    \item Develop and debug firmware for 32-bit ARM processors in IMUs and Inertial Navigation Systems (INS)
+    \begin{itemize}
+        \setlength\itemsep{0.05em}
+        \item Support new product development innovations as well as existing and deployed firmware 
+        \item Prototype new hardware, sensors and embedded algorithms to advance our product performance
+    \end{itemize}
+    \item Create and manage electrical schematics and circuit board layouts with OrCAD
+    \item Rewrote our entire data reduction system using Python to replace old Excel macros
+    \item Helped write, test and integrate a new Extended Kalman Filter into a legacy INS/GPS design
+\end{itemize}
+
+\noindent\textbf{\emph{Product Development \& Quality}}
+\begin{itemize}
+    \setlength\itemsep{0.05em}
+    \item Oversee new product development at every stage from concept, qualification and release
+    \begin{itemize}
+        \setlength\itemsep{0.05em}
+        \item Track all product development progress through phase-gates per AS9100D quality management system
+        \item Write work instructions ranging from low-level device assembly to end-item testing procedures
+    \end{itemize}
+    \item Support our automated production test software (custom Windows applications)
+    \begin{itemize}
+        \setlength\itemsep{0.05em}
+        \item Maintain legacy product testing capabilities, implement bug fixes and merge innovations
+    \end{itemize}
+\end{itemize}
+
+\noindent\textbf{\emph{Data Analysis \& Simulation}}
+\begin{itemize}
+    \setlength\itemsep{0.05em}
+    \item Perform data analysis with MATLAB \& Python for evaulating performance characteristics and statistics
+    \item Helped create and use tools for simulating IMU/INS algorithm changes in a post-processing environment
+\end{itemize}
+
+\noindent\textbf{\emph{Sales Support \& Documentation}}
+\begin{itemize}
+    \setlength\itemsep{0.05em}
+    \item Support customers with application engineering challenges both remotely and directly
+    \item Handle all software maintenance for our existing Windows SDK package
+    % \item Write and maintain product User Guides, Datasheets, Technical Summaries and Reference Manuals 
+\end{itemize}
+
+
+
+\subsubsection*{06/16 - 09/16 | Intern | BCE Engineers Inc.}
+\begin{itemize}
+    \setlength\itemsep{0.05em}
+    \item Revised building electrical plans to NEC specifications using AutoCAD
+    \item Designed indoor/outdoor lighting layouts in accordance with IES standards 
+\end{itemize}
+
+
+
+\section*{Skills \& Abilities}
+
+\textbf{Electronics}:\newline Experience with SPI, UART, RS-485, I2C, \& USB interfaces, schematic design, PCB layout,
+CAD/EDA library management and soldering (SMT \& THT)
+\newline\textbf{Lab Equipment}:\newline Oscilloscopes, DMMs, function generators and spectrum analyzers
+\newline\textbf{Software}:\newline KiCAD, Visual Studio, Git, OrCAD, Autodesk Eagle, LTSpice, NI Multisim, AutoCAD
+\newline\textbf{Programming}:\newline C (Embedded), C++, Python, MATLAB, C\#, Arduino and System Verilog
+
+
+
+\section*{Personal Projects}
+
+\textbf{Racing drone flight controller (12/19)}\newline
+A custom controller built around an ARM Cortex M-4. Utilizes an IMU, barometer, and GPS receiver. A PID loop
+running at 1 kHz controls four motors for stabilization and flight control.
+\newline\newline\textbf{Brushless DC Motor Driver (04/17)}\newline
+The final product was capable of driving a 24 Volt BLDC motor at up to 9 Amps with speed and position control.
+
+
+
+\section*{Education}
+
+\textbf{University of Washington, Seattle, WA\hspace{3 mm}|\hspace{3 mm}Bachelor of Science in Electrical Engineering (2017)}
+\newline Concentrations: Power Electronics, Motor Drives, Large-Scale Power Systems
+\newline\break\textbf{Olympic College, Bremerton, WA\hspace{3 mm}|\hspace{3 mm}Associate of Science (2015)}
+
+\end{document}

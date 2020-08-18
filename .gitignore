@@ -1,0 +1,10 @@
+Resume/md_resume_8-2020.md
+
+*.cls
+*.sty
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz

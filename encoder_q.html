@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Kyle Hess | Electrical Engineer</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+	</head>
+	<body>
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="index.html">Kyle Hess - Bellevue, WA</a></h1>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<div class="inner">
+							<h2>Menu</h2>
+							<ul class="links">
+								<li><a href="index.html">Home</a></li>
+								<li><a href="resume.html">Resume</a></li>
+								<li><a href="projects.html">Projects</a></li>
+							</ul>
+							<a href="#" class="close">Close</a>
+						</div>
+					</nav>
+
+				<!-- Wrapper -->
+					<section id="wrapper">
+						<header>
+							<div class="inner">
+								<h2>Incremental Encoder Reader</h2>
+								<p>This project decodes an incremental rotary encoder output stream and outputs information on a dot matrix LED display.
+							</div>
+						</header>
+
+						<!-- Content -->
+							<div class="wrapper">
+								<div class="inner">
+
+									<section>
+									<h1 class="major">Design</h1>
+										<a href="images/encoder_q/encoderQ_vid-gif.gif"><img src="images/encoder_q/encoderQ_vid-gif.gif" alt="" width="70%"/></a>
+										<p>This system is based around three main components:<br />
+											-ARM Cortex M4<br />
+											-HCMS-2903 Dot Matrix Display<br />
+											-OMRON E6D Quadrature Rotary Encoder<br />
+											<br />
+											The E6D Quadrature encoder outputs 24,000 pulses per revolution as well as a "zero" position flag.
+											Using one of peripheral timers in the ARM we can easily read the Quadrature output and increment a 32-bit counter.
+											This timer functions on an interrupt and allows other functionality without missing a single pulse.
+										</p>
+											<section>
+										<h3><a href="https://github.com/kyleRhess/EncoderQ">KiCAD Design Files & Firmware</h3></a>
+										</section>
+										<br />
+									</section>
+
+									<section>
+									<h1 class="major">Rev 1.0 ✔</h1>
+										<a><img src="images/encoder_q/20200825-outputss-gif.gif" alt="" width="40%"/></a><br />
+
+										<p>The initial proof-of-concept works as intended. <br />The display here is only showing the total angular distance
+											traveled to the nearest degree. The encoder itself has a resolution of 360/24000 = 0.015°.
+										</p>
+									</section>
+
+									<section>
+									<h1 class="major">Going Forward 🌌</h1>
+										<a><img src="images/encoder_q/20200830_223137-gif.gif" alt="" width="40%"/></a><br />
+
+										<p>Since the display uses a dot matrix technology we are not limited to numbers. So why not define more ASCII characters?<br />
+											There are more "Extended" ASCII characters that still need to be defined.
+										</p>
+									</section>
+
+									<section>
+									<h1 class="major">Final Revision</h1>
+										<p>
+											<i>
+												The final revision is still a work-in-progress.
+											</i>
+										</p>
+										<!--
+										<div class="box alt">
+											<div class="row uniform">
+												<div class="4u"><span class="image fit"><a href="images/driver/nnn.JPG"><img src="images/driver/nnn.JPG" alt="" /></a></span></div>
+												<div class="4u"><span class="image fit"><a href="images/driver/nnn.JPG"><img src="images/driver/nnn.JPG" alt="" /></a></span></div>
+												<div class="4u"><span class="image fit"><a href="images/driver/nnn.JPG"><img src="images/driver/nnn.JPG" alt="" /></a></span></div>
+											</div>
+										</div>
+										-->
+									</section>
+								</div>
+							</div>
+
+					</section>
+
+				<!-- Footer -->
+					<section id="footer">
+						<div class="inner">
+							<ul class="copyright">
+								<li>Kyle Hess</li><li>Bellevue, Washington</li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

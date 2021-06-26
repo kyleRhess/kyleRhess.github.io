@@ -1,0 +1,218 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Kyle Hess | Electrical Engineer</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+	</head>
+	<body>
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="index.html">Kyle Hess - Bellevue, WA</a></h1>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<div class="inner">
+							<h2>Menu</h2>
+							<ul class="links">
+								<li><a href="index.html">Home</a></li>
+								<li><a href="resume.html">Resume</a></li>
+								<li><a href="projects.html">Projects</a></li>
+							</ul>
+							<a href="#" class="close">Close</a>
+						</div>
+					</nav>
+
+				<!-- Wrapper -->
+					<section id="wrapper">
+						<header>
+							<div class="inner">
+								<h2>Field Oriented Motor Control + eBike</h2>
+								<p>In this project I revisited a <a href="https://kylerhess.github.io/umotor.html">previous BLDC motor controller design</a> to incorporate a multitude of enhancements and new features.
+									The primary goal with this design was to achieve true Field Oriented Control (Vector Control) of a 3-Phase BLDC motor. 
+									The intent of this driver was to power an eBike hub motor and the specifications were chosen accordingly. 
+									<br />
+									<a href="images/foc/foc_board.PNG"><img src="images/foc/foc_board.PNG" alt="" width="100%"/></a>
+							</div>
+						</header>
+
+						<!-- Content -->
+							<div class="wrapper">
+								<div class="inner">
+
+									<section>
+									<h1 class="major">System Specifications</h1>
+										<p> - Up to 54 V input supply<br />
+											- Output current up to 30 A Continuous (50 A Peak)<br />
+											- Field Oriented Control (FOC)<br />
+										</p>
+									</section>
+
+									<section>
+										<h1 class="major">Design</h1>
+											<p> 
+												The circuit card for this design is comprised of two separate boards:<br />
+												- The power stage (three-phase half-bridge)<br />
+												- The controller board (everything else)<br /><br />
+												These boards are connected together, back-to-back, to form a compact stack while keeping the high-power components and traces away from the sensitive digital circuits.
+												The only exception to this being the feed-through of the three phases which is necessary to perform current sensing.<br /><br />
+
+												<u><b>Power Stage</b></u>
+												<p><span class="image left"><a href="images/foc/power_stage.jpg"><img src="images/foc/power_stage.jpg" alt="" /></a></span>
+												This inverter stage uses six FDB075N15A N-Channel MOSFETs configured as three half-bridges.
+												Each FET is rated for 150 V and 130 A with a low on-resistance of 6.25 mΩ. These parts also have a small gate capacitance which is important for controlling turn-on time.<br /><br />
+
+												This board also contains all of the gate resistors and snubber capacitors to limit FET switching speed and to suppress voltage transients.<br /><br />
+
+												The board pictured here (left) is undergoing repair after both high and low FETs were switched on resulting in large shoot-through current.<br />
+												This permanently damaged both transistors.<br /><br /><br />
+
+
+												<u><b>Controller Board</b></u>
+												<p><span class="image left"><a href="images/foc/control_stage.jpg"><img src="images/foc/control_stage.jpg" alt="" /></a></span>
+												The controller board contains the following:<br />
+												- ARM Cortex M4 microcontroller (STM32F410)<br />
+												- Three Phase N-Channel MOSFET Driver (HIP4086)<br />
+												- Current sensing amplifiers on A & B phases (INA240A3D)<br />
+												- 60 V -> 12 V switching regulator (LM2594HVM)<br />
+												- 5 V & 3.3 V linear regulators<br />
+												- Optically isolated USB-to-UART interface<br /><br />
+
+												As you can see in the picture to the left, there are a few changes that will need to be incorporated in the next iteration. 
+												These include a large tantalum capacitor on the 12 V regulator, filter capacitors on the motor hall sensor lines, and a Zener regulator to detect battery connection. <br /><br />
+
+												The following is a basic system block diagram of the FOC components. 
+												Where the purple blocks indicate software modules, and the yellow indicate hardware.<br />
+												<a href="images/foc/foc_diag.png"><img src="images/foc/foc_diag.png" alt="" width="70%"/></a>
+
+												<br /><br />
+												This diagram shows the cascade of PID controllers used to control motor torque, speed, and position.
+												The final output from these controllers is the reference current for the FOC PI controller. 
+												This reference can also be set directly in the case of direct torque control (which is used for the eBike).<br />
+												<a href="images/foc/pid_diag.png"><img src="images/foc/pid_diag.png" alt="" width="70%"/></a>
+
+											</p>
+
+											<style>
+												h2 {
+												  text-align: center;
+												}
+											</style>
+											<section>
+												<h2><a href="https://github.com/kyleRhess/MicroMotor">KiCAD Design Files & Firmware</h2></a>
+											</section>
+											<br />
+									</section>
+
+
+									<section>
+										<h1 class="major">Initial Testing</h1>
+											<p>
+												Testing of this system was first conducted by powering a small BLDC motor that was directly connected to the OMRON E6D incremental encoder. 
+												This allowed me to test the FOC algorithms at low voltage and power levels.<br /><br />
+												The 0.015° angular resolution provided by the E6D allowed for very precise speed and position control. 
+												The following video shows the controller in action. 
+												Here, the controller is functioning in position control mode and is commanding the motor to rotate in increments of 360°.<br />
+
+												<video width="250" height="500" controls>
+													<source src="images/foc/20210323_164719.mp4" type="video/mp4">
+												  	Your browser does not support the video tag.
+												</video>
+											</p>
+									</section>
+
+
+
+									<section>
+										<h1 class="major">Integrating With eBike</h1>
+											<p>
+												<p><span class="image left"><a href="images/foc/bike.jpg"><img src="images/foc/bike.jpg" alt="" /></a></span>
+													
+													Testing with the eBike started using only a 15 V, current-limited, power supply. Just in case.<br />
+													The main challenge integrating this system was the lack of a incremental wheel encoder. 
+													Getting a rotary encoder capable of measuring wheel position has proven difficult. 
+													To overcome this I've decided (for now) to just use the Hall-effect position sensors built into the motor. 
+													With these I can roughly measure wheel position and interpolate between them using an estimated wheel velocity. This has proven effective.<br /><br />
+
+													The eBike was functional until the rear hub motor torqued itself free from the bike frame. 
+													This cause some lines to short out and destroyed a series of components that I'm attempting to fix now. Part shortages are not helping.
+											</p>
+									</section>
+
+									<section>
+									<h1 class="major">Current Sensing Circuit</h1>
+										<a href="images/foc/current.png"><img src="images/foc/current.png" alt="" width="40%"/></a>
+										<p>Proper FOC operations requires measuring the current being supplied to each motor phase.
+											I chose to use a current sense amplifier along with a small shunt resistor to achieve large current measurements without huge power dissipation.
+											<br />
+											The 750 µΩ shunt resistor will only need to dissipate 675 mW at the most (30 A output), 
+											but I'm just now realizing that this resistor along with the 100 V/V amplifier gain will only allow me to measure up to ±22 A given the 3.3 V ADC reference.<br />
+											One more thing to update in the next revision.
+										</p>
+									</section>
+
+									<section>
+									<h1 class="major">Known Issues & Future Design</h1>
+										<p>
+											The largest problem currently facing this project is simply keeping the hub motor attached to the frame!<br />
+											When the wheel comes loose it can be quite damaging to the rest of the hardware.<br /><br />
+											The only other pressing issue is the recently discovered limit on the current measurement capability. 
+											It would be nice to have some overhead on this measurement as the PI controllers can get erratic if they have saturated inputs.<br /><br />
+											1) The 12 V switching regulator should be using a large (100 µF) tantalum output capacitor to avoid ringing.
+											<br />
+											2) The 5 V linear regulator should be changed to a switching regulator due to power output requirements.
+											<br />
+											3) Change shunt resistors to 500 µΩ or increase ADC reference voltage so larger currents can be measured.
+											<br />
+											4) Include 0.01 uF capacitors on Hall sensor inputs to filter noise.
+											<br />
+											5) Add a firmware controlled status LED.
+											<br />
+											6) Include additional ADC inputs with divider networks for throttle input.
+											<br />
+											7) Include a Zener diode to limit input battery voltage for power switch detection.
+											<br />
+											<br />
+											For the next revision I think I will ditch the board-to-board connectors and simply solder them together with pass-through wires.
+											<br />
+											The board connectors can be unreliable during high vibration and just add unnecessary cost.
+										</p>
+									</section>
+								</div>
+							</div>
+
+					</section>
+
+				<!-- Footer -->
+					<section id="footer">
+						<div class="inner">
+							<ul class="copyright">
+								<li>Kyle Hess</li><li>Bellevue, Washington</li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

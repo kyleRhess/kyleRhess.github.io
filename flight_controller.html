@@ -81,7 +81,7 @@
 										<p><span class="image left"><a href="images/flight_contoller/contoller_on_drone.jpg"><img src="images/flight_contoller/contoller_on_drone.jpg" alt="" /></a></span>
 										Once completed, this board was mounted on the quadcopter frame along with the pre-purchased motor ESCs, power delivery board, motors, RC receiver, and a voltage measurement device.<br /><br />
 										After significant debugging of the ECS protocol (which is essentially just a PWM signal) tuning of the controller PID gains could begin. At this point the magnetometer was ignored as it is far to sensitive to provide reliable data in differing environments.<br /><br />
-										The existing control algorithm is only focused on rate control. The contoller reads the three rate gyros and filters the signal via oversampling and an IIR filter. The motor control signals are then modulated to keep the gyro rate readings at a setpoint given by the RC receiver (ideally). This is a very raw control scheme but allows for very direct control of the quadcopter without relying on the algorithm too much.
+										The existing control algorithm is only focused on rate control. The controller reads the three rate gyros and filters the signal via oversampling and an IIR filter. The motor control signals are then modulated to keep the gyro rate readings at a set-point given by the RC receiver (ideally). This is a very raw control scheme but allows for very direct control of the quadcopter without relying on the algorithm too much.
 										</p>
 									</section>
 									<section>
@@ -116,7 +116,7 @@
 									<h1 class="major">Command Interface And UI</h1>
 										<span class="image left"><a href="images/flight_contoller/ui.JPG"><img src="images/flight_contoller/ui.JPG" alt="" /></a></span>
 										<p>
-											In order to change parameters within the flight controller, a Windows-based UI was developed with C# to send/receive messages from the quadcopter. The controller's UART port is converted to a USB interface and connected to the PC. Then the UI can conncet to the COM port to communicate with the device.<br /><br />
+											In order to change parameters within the flight controller, a Windows-based UI was developed with C# to send/receive messages from the quadcopter. The controller's UART port is converted to a USB interface and connected to the PC. Then the UI can connect to the COM port to communicate with the device.<br /><br />
 
 											Each message sent to the connected PC has the following structure:<br />
 											<i>[Start (1 byte), message counter (1 byte), 7 floating point values (28 bytes), status byte A (1 byte), status byte B (1 byte), checksum (1 byte)]</i><br /><br />

@@ -101,13 +101,13 @@
 									<h1 class="major">USB/UART Interface 🔌</h1>
 										<a href="images/umotor/usb1.jpg"><img src="images/umotor/usb1.jpg" alt="" width="40%"/></a>
 										<a href="images/umotor/optocoupler.png"><img src="images/umotor/optocoupler.png" alt="" width="41.75%"/></a>
-										<p>Inorder to avoid possible damage to any connected devices (in the case of catastrophic failure) 
+										<p>In order to avoid possible damage to any connected devices (in the case of catastrophic failure) 
 											I chose to isolate the USB/UART interface with a bi-directional logic gate optocoupler.
 											<br />
 											The USB signals are first passed through a USB-to-UART converter (FT230XQ). 
 											The resulting UART Tx & Rx lines then go to the optocoupler which relays the signals to/from the ARM processor.
 											<br /><br />
-											As the signals output from the optocoupler become inverted (pay close attenion to the schematic) 
+											As the signals output from the optocoupler become inverted (pay close attention to the schematic) 
 											a dual-channel inverter was placed on one side of the optocoupler.
 											<br />
 											I wanted to keep the layout tight so I chose a 6-UFDFN package.<br />
@@ -144,7 +144,7 @@
 											<b>
 											The biggest remaining design issue is some very high frequency noise on the Hall sensor outputs.<br />
 											</b>
-											All three signals show very short (less than 50 ns) transients occuring at the PWM frequency of 50 kHz. 
+											All three signals show very short (less than 50 ns) transients occurring at the PWM frequency of 50 kHz. 
 											This noise is sometimes picked up by the ARM ISR that handles the Hall sensor signal changes.
 											<br />
 											<br />

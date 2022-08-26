@@ -8,3 +8,5 @@ Resume/md_resume_8-2020.md
 *.log
 *.out
 *.synctex.gz
+
+!helvetica.sty

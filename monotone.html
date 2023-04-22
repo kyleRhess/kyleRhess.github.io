@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Kyle Hess | Electrical Engineer</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body>
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="index.html">Kyle Hess - Huntsville, AL</a></h1>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<div class="inner">
+							<h2>Menu</h2>
+							<ul class="links">
+								<li><a href="index.html">Home</a></li>
+								<li><a href="resume.html">Resume</a></li>
+							</ul>
+							<a href="#" class="close">Close</a>
+						</div>
+					</nav>
+
+				<!-- Wrapper -->
+					<section id="wrapper">
+						<header>
+							<div class="inner">
+								<h2>MONOTONE: A 10 MHZ GPS-DISCIPLINED OSCILLATOR (GPSDO) FREQUENCY REFERENCE</h2>
+								<a><img src="images/monotone/render.png" alt="" width="100%"/></a>
+							</div>
+						</header>
+
+						<!-- Content -->
+							<div class="wrapper">
+								<div class="inner">
+									<p>
+										<i>February 5, 2023</i><br /><br />
+										In an effort to improve the accuracy of a recently acquired HP 5315B Frequency Counter, I decided to supply it with an external 10MHz reference source. 
+										However, I do not own such a reference so I had to build one. 
+										<br />
+										I started by selecting a very stable, tunable, ovenized, 10 MHz  oscillator 
+										<a href="http://www.conwin.com/datasheets/cx/cx205.pdf">(OH100-71003SV-010.0M)</a>. This oscillator should give pretty decent performance 
+										on it's own, but of course will drift slightly due to temperature changes and aging. 
+										<br />
+										The solution: Lock it to a GNSS reference timing signal with a Phase-Locked Loop (PLL).
+										<br /><br />
+										The following projects served as great references for my own:<br />
+										<a href="https://www.eevblog.com/forum/projects/diy-gpsdo-project-w-stm32-tdc7200/">https://www.eevblog.com/forum/projects/diy-gpsdo-project-w-stm32-tdc7200/</a><br />
+										<a href="https://hackerstuebchen.de/gpsdo-design-the-tic">https://hackerstuebchen.de/gpsdo-design-the-tic</a><br />
+										<a href="https://www.eevblog.com/forum/projects/lars-diy-gpsdo-with-arduino-and-1ns-resolution-tic/">https://www.eevblog.com/forum/projects/lars-diy-gpsdo-with-arduino-and-1ns-resolution-tic/</a><br />
+									</p>
+									<br />
+
+									<section>
+									<h1 class="major">System Overview</h1>
+										<p>	Goals:<br />
+											- Low phase noise -90 dBc/Hz (10 Hz offset) <br />
+											- Long-term stability better than 1E-12<br />
+											- Fast start-up time<br /><br />
+
+											The basic idea for this system is to phase-lock an ovenized oscillator (VCOCXO) to the Pulse Per Second (PPS) signal provided by a <a href="https://www.u-blox.com/en/docs/UBX-15025193">GNSS receiver</a>.
+											The PLL is accomplished by measuring the time from the rising edge of the PPS signal, and a reference signal from the VCOCXO. 
+											Any amount of measured time is perceived as a phase error, which can be used to proportionally drive a DAC that ultimately tunes the VCOCXO frequency. 
+											<br /><br />
+
+											<br /><a href="images/monotone/overall_system.png"><img src="images/monotone/overall_system.png" alt="" width="75%"/></a>
+										</p>
+									</section>
+
+									<section>
+										<h1 class="major">Design</h1>
+											<p> 
+												The overall board schematic is provided below. It contains two internal pages that detail the PLL circuit and the output signal buffering (see schematics further down). 
+												The first thing you may notice: Wow, what's with all the linear regulators!? Yes, this might be overkill. One of my main goals with this project was to reduce the output 
+												noise as much as possible. This means switching regulators are a no-go. I also wanted to isolate the digital supplies as much as possible from, say, the oscillator supply. 
+												And the GPS USB power has it's own regulator... and... and... Anyway, my preliminary calculations tell me that the worst case power dissipation (around 1 W) will occur in the 5V regulator. 
+												Given that most of the power is consumed by the VCOCXO heater, any self-heating should somewhat self-regulate... I think.
+												<br /><a href="images/monotone/monotone.pdf"><img src="images/monotone/monotone.png" alt="" width="75%"/></a><br /><br />
+
+												At the core of the time measurement circuit is the <a href="https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftdc7200">TDC7200</a> 
+												from Texas Instruments. This neat little chips allows us to measure the time between two signal edges with a resolution of 55 ps! 
+												The two signals feeding the TDC7200 are the PPS signal from our GPS receiver, and a 500 kHz signal (which is divided down from the 10 MHz oscillator).
+												The PPS signal starts the timer counting, and the first positive 500 kHz edge stops it. This time value is then read by an STM32 over SPI 
+												for further processing. Since the PPS signal has a significant amount of jitter on it (around 20 ns), it is necessary to average these measurements 
+												over a very long period (like, 1000+ seconds). As measurements are received, they are added to a moving average. 
+												This average error value is then used to drive a <a href="https://www.analog.com/media/en/technical-documentation/data-sheets/max5541.pdf">16-Bit DAC</a> 
+												which is heavily filtered before it feeds the control signal of the oscillator.
+												<br /><a href="images/monotone/monotone-PLL.pdf"><img src="images/monotone/monotone-PLL.png" alt="" width="75%"/></a><br /><br />
+
+												The final output stage of the 10 MHz reference consists of a high-bandwidth buffer amplifier with an output impedance of 50 Ohms, AC-coupled to a coaxial U.FL output connector. 
+												The output amplifier design is a little over-complicated, but was chosen on the basis of minimizing noise, and isolating the VCOCXO from load fluctuations. 
+												This amplifier design does not require a negative power supply (so no charge pumps or switching regulators), but this warrants biasing the input signal to roughly 
+												+3V. This prevents clipping of the output signal while allowing a full output swing of ~500mVrms (7dBm into 50 Ohms).
+												<br /><a href="images/monotone/monotone-OUTPUT AMP.pdf"><img src="images/monotone/monotone-OUTPUT AMP.png" alt="" width="75%"/></a><br /><br />
+
+												The board design was a simple two-layer PCB kept minimally small to reduce cost (although increasing the size may be required to thermally isolate the VCOCXO).
+												Controlled impedance traces were used for the GNSS antenna input, as well as for the 10 MHz sine signal.
+												<br /><a href="images/monotone/pcb_render.png"><img src="images/monotone/pcb_render.png" alt="" width="75%"/></a><br /><br />
+										</p>
+									</section>
+								</div>
+							</div>
+
+					</section>
+
+				<!-- Footer -->
+					<section id="footer">
+						<div class="inner">
+							<ul class="copyright">
+								<li>Kyle Hess</li><li>Huntsville, Alabama</li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

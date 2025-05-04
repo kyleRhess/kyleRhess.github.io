@@ -36,7 +36,7 @@
 						<header>
 							<div class="inner">
 								<h2>MONOTONE: A 10 MHZ GPS-DISCIPLINED OSCILLATOR (GPSDO) FREQUENCY REFERENCE</h2>
-								<a><img src="images/monotone/render.png" alt="" width="100%"/></a>
+								<a><img src="images/monotone/pcba.jpg" alt="" width="100%"/></a>
 							</div>
 						</header>
 
@@ -45,7 +45,7 @@
 								<div class="inner">
 									<p>
 										<i>February 5, 2023</i><br /><br />
-										In an effort to improve the accuracy of a recently acquired HP 5315B Frequency Counter, I decided to supply it with an external 10MHz reference source. 
+										In an effort to improve the accuracy of a recently acquired HP 53131A Frequency Counter, I decided to supply it with an external 10MHz reference source. 
 										However, I do not own such a reference so I had to build one. 
 										<br />
 										I started by selecting a very stable, tunable, ovenized, 10 MHz  oscillator 
@@ -84,30 +84,42 @@
 												The first thing you may notice: Wow, what's with all the linear regulators!? Yes, this might be overkill. One of my main goals with this project was to reduce the output 
 												noise as much as possible. This means switching regulators are a no-go. I also wanted to isolate the digital supplies as much as possible from, say, the oscillator supply. 
 												And the GPS USB power has it's own regulator... and... and... Anyway, my preliminary calculations tell me that the worst case power dissipation (around 1 W) will occur in the 5V regulator. 
-												Given that most of the power is consumed by the VCOCXO heater, any self-heating should somewhat self-regulate... I think.
-												<br /><a href="images/monotone/monotone.pdf"><img src="images/monotone/monotone.png" alt="" width="75%"/></a><br /><br />
-
-												At the core of the time measurement circuit is the <a href="https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftdc7200">TDC7200</a> 
-												from Texas Instruments. This neat little chips allows us to measure the time between two signal edges with a resolution of 55 ps! 
-												The two signals feeding the TDC7200 are the PPS signal from our GPS receiver, and a 500 kHz signal (which is divided down from the 10 MHz oscillator).
-												The PPS signal starts the timer counting, and the first positive 500 kHz edge stops it. This time value is then read by an STM32 over SPI 
-												for further processing. Since the PPS signal has a significant amount of jitter on it (around 20 ns), it is necessary to average these measurements 
-												over a very long period (like, 1000+ seconds). As measurements are received, they are added to a moving average. 
-												This average error value is then used to drive a <a href="https://www.analog.com/media/en/technical-documentation/data-sheets/max5541.pdf">16-Bit DAC</a> 
-												which is heavily filtered before it feeds the control signal of the oscillator.
-												<br /><a href="images/monotone/monotone-PLL.pdf"><img src="images/monotone/monotone-PLL.png" alt="" width="75%"/></a><br /><br />
-
+												Given that most of the power is consumed by the VCOCXO heater, any self-heating should somewhat self-regulate... I think.<br /><br />
 												The final output stage of the 10 MHz reference consists of a high-bandwidth buffer amplifier with an output impedance of 50 Ohms, AC-coupled to a coaxial U.FL output connector. 
 												The output amplifier design is a little over-complicated, but was chosen on the basis of minimizing noise, and isolating the VCOCXO from load fluctuations. 
 												This amplifier design does not require a negative power supply (so no charge pumps or switching regulators), but this warrants biasing the input signal to roughly 
 												+3V. This prevents clipping of the output signal while allowing a full output swing of ~500mVrms (7dBm into 50 Ohms).
-												<br /><a href="images/monotone/monotone-OUTPUT AMP.pdf"><img src="images/monotone/monotone-OUTPUT AMP.png" alt="" width="75%"/></a><br /><br />
+												<br /><a href="images/monotone/monotone.pdf"><img src="images/monotone/monotone.png" alt="" width="75%"/></a><br /><br />
 
-												The board design was a simple two-layer PCB kept minimally small to reduce cost (although increasing the size may be required to thermally isolate the VCOCXO).
-												Controlled impedance traces were used for the GNSS antenna input, as well as for the 10 MHz sine signal.
+												At the core of the time measurement circuit is the <a href="https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftdc7200">TDC7200</a> 
+												from Texas Instruments. This neat little chip allows us to measure the time between two signal edges with a resolution of 55 ps! (yes, picoseconds) 
+												The two signals feeding the TDC7200 are the PPS signal from our GPS receiver, and a 500 kHz signal (which is divided down from the 10 MHz oscillator).
+												The PPS signal starts the timer counting, and the first positive edge from the 500 kHz signal stops it. This time value is then read by an STM32 over SPI 
+												for further processing. Since the PPS signal has a significant amount of jitter on it (around 20 ns), it is necessary to average these measurements 
+												over a very long period (like, 1000+ seconds).
+												<br /><a href="images/monotone/monotone-PLL.pdf"><img src="images/monotone/monotone-PLL.png" alt="" width="75%"/></a><br /><br />
+
+												As measurements are received, they are fed into a very slow moving PID controller. The PID controller output value is then used to drive a <a href="https://www.analog.com/media/en/technical-documentation/data-sheets/max5717-max5719.pdf">20-Bit DAC</a> 
+												which is divided and filtered before feeding the very sensitive control signal input to the oscillator. The voltage division is needed to scale the DAC output range of 0V - 4.096V to the 0 - 3V range expected by the oscillator. This 20-bit DAC has given me decent performance, however moving to a part with better linearity (such as the AD5791 from Analog Devices) may be necessary if I choose to use a higher performance oscillator in the future. Unfortunately, the chosen DAC requires the use of 5V logic. This necessitated an additional level shifter. 
+												<br /><a href="images/monotone/monotone-PLL-DAC.pdf"><img src="images/monotone/monotone-PLL-DAC.png" alt="" width="75%"/></a><br /><br />
+
+												The board design is a simple four-layer PCB with dimensions that both accommodate the chosen aluminum enclosure, as well as thermally isolating the VCOCXO from as much of the system as possible.
+												Controlled impedance coplanar waveguides were used for the GNSS antenna input, as well as for the 10 MHz output signal.
+												The 20-bit DAC and its associated circuitry were made compact and placed with an RF shield encasing them. I have not measured the performance difference of this design feature, but the most compelling reason to do so was temperature stability. 
 												<br /><a href="images/monotone/pcb_render.png"><img src="images/monotone/pcb_render.png" alt="" width="75%"/></a><br /><br />
+												<br /><a href="images/monotone/render.png"><img src="images/monotone/render.png" alt="" width="75%"/></a><br /><br />
+												<br /><a href="images/monotone/pcba2.jpg"><img src="images/monotone/pcba2.jpg" alt="" width="75%"/></a><br /><br />
 										</p>
 									</section>
+
+									<section>
+										<h1 class="major">Performance</h1>
+											<p> Performance testing is still ongoing for this design. Due to the nature of oscillators like these, testing can take quite some time. Furthermore, to really get an absolute quantifiable measurement of frequency or drift, I would need a better oscillator to compare against. If you're reading this and happen to have access to a Hydrogen Maser or Caesium Beam atomic clock, please let me know. I have compared my design to two other commercial GPSDO units (Trimble/Nortel GPSTM and Trimble Thunderbolt) and while I have observed some short-term phase drift, the average frequency error appears to be near zero. Both oscillators maintain a phase lock indefinitely, with some phase noise.<br />
+											Below is some preliminary phase difference data that was collected over ~24 hours.
+
+												<br /><a href="images/monotone/20250122_213401.png"><img src="images/monotone/20250122_213401.png" alt="" width="75%"/></a>
+											</p>
+										</section>
 								</div>
 							</div>
 
